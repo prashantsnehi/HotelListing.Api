@@ -38,3 +38,35 @@ Content-Type: application/json
 
 ###
 DELETE {{host}}/api/hotel/deletehotel/{{id}} 
+
+### Note: Replace {{id}} with the actual hotel ID you want to retrieve, update, or delete.
+GET {{host}}/api/country/getcountries
+Accept: application/json
+
+###
+GET {{host}}/api/country/getcountry/{{id}}
+Accept: application/json
+
+###
+POST {{host}}/api/country/createcountry
+Content-Type: application/json
+
+{
+    "Id": 4,
+    "name": "Spain",
+    "code": "ES"
+}
+
+###
+PUT {{host}}/api/country/updatecountry/{{id}}
+Content-Type: application/json
+
+{
+    "name": "India",
+    "code": "IN"
+}
+
+###
+DELETE {{host}}/api/country/deletecountry/{{id}}
+
+
