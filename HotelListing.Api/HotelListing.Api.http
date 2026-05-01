@@ -1,0 +1,40 @@
+@host = http://localhost:5114
+
+GET {{host}}/api/weatherforecast/
+Accept: application/json
+
+###
+@id = 4
+
+GET {{host}}/api/hotel/gethotels
+Accept: application/json
+
+###
+GET {{host}}/api/hotel/gethotel/{{id}}
+Accept: application/json
+
+###
+POST {{host}}/api/hotel/createhotel
+Content-Type: application/json  
+
+{
+    "Id": 4,
+    "name": "Hotel California",
+    "address": "42 Sunset Boulevard",
+    "country": "USA",
+    "rating": 4.5
+}
+
+###
+PUT {{host}}/api/hotel/updatehotel/{{id}}
+Content-Type: application/json  
+
+{
+    "name": "Hotel California Updated",
+    "address": "42 Sunset Boulevard",
+    "country": "USA",
+    "rating": 4.7
+}
+
+###
+DELETE {{host}}/api/hotel/deletehotel/{{id}} 
