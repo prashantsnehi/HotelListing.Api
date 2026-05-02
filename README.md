@@ -51,3 +51,12 @@ A sample ASP.NET Core Web API project for managing hotel listings and related re
 ## License
 
 This project is provided as-is for learning and demonstration purposes.
+
+## SQL Container command to run docker on Linux or MAC OS
+docker run -e 'ACCEPT_EULA=Y' /
+           -e 'SA_PASSWORD=Str0ngP@$$w0rd' /
+           -p 1433:1433 /
+           -v hotel_database:/var/opt/mssql/ /
+           --platform=linux/amd64  /
+           --name sqlserver /
+           -d mcr.microsoft.com/mssql/server:2022-latest
