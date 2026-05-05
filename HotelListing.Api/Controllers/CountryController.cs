@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HotelListing.Api.Data;
 using HotelListing.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +6,14 @@ namespace HotelListing.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CountryController : ControllerBase
+    public class CountryController(ICountryRepository _countryRepository) : ControllerBase
     {
-        private readonly ICountryRepository _countryRepository;
+        // private readonly ICountryRepository _countryRepository;
 
-        public CountryController(ICountryRepository countryRepository)
-        {
-            _countryRepository = countryRepository;
-        }
+        // public CountryController(ICountryRepository countryRepository)
+        // {
+        //     _countryRepository = countryRepository;
+        // }
 
         [HttpGet("getcountries")]
         public async Task<ActionResult<IEnumerable<Country>>> GetCountries()

@@ -4,7 +4,7 @@ GET {{host}}/api/weatherforecast/
 Accept: application/json
 
 ###
-@id = 4
+@id = 1
 
 GET {{host}}/api/hotel/gethotels
 Accept: application/json
@@ -18,10 +18,9 @@ POST {{host}}/api/hotel/createhotel
 Content-Type: application/json  
 
 {
-    "Id": 4,
     "name": "Hotel California",
     "address": "42 Sunset Boulevard",
-    "country": "USA",
+    "countryId": 1,
     "rating": 4.5
 }
 
@@ -52,7 +51,6 @@ POST {{host}}/api/country/createcountry
 Content-Type: application/json
 
 {
-    "Id": 4,
     "name": "Spain",
     "code": "ES"
 }

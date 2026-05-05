@@ -1,61 +1,46 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HotelListing.Api.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelListing.Api.Repositories
 {
     public class CountryRepository : ICountryRepository
     {
-        private static List<Country> _countries = new List<Country>
+        private readonly HotelListingDbContext _context;
+
+        public CountryRepository(HotelListingDbContext context)
         {
-            new Country
-            {
-                Id = 1,
-                Name = "United States",
-                Code = "US"
-            },
-            new Country
-            {
-                Id = 2,
-                Name = "Canada",
-                Code = "CA"
-            },
-            new Country
-            {
-                Id = 3,
-                Name = "United Kingdom",
-                Code = "GB"
-            }
-        };
+            _context = context;
+        }
 
         public async Task<IEnumerable<Country>> GetAllCountriesAsync()
         {
-            return await Task.FromResult(_countries);
+            return await _context.Countries
+                .Include(c => c.Hotels)
+                .ToListAsync();
         }
 
         public async Task<Country?> GetCountryByIdAsync(int id)
         {
-            var country = _countries.FirstOrDefault(c => c.Id == id);
-            return await Task.FromResult(country);
+            return await _context.Countries
+                .Include(c => c.Hotels)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Country> CreateCountryAsync(Country country)
         {
-            if (_countries.Any(c => c.Id == country.Id))
+            if (country.Id != 0 && await _context.Countries.AnyAsync(c => c.Id == country.Id))
             {
                 throw new InvalidOperationException("Country with the same Id already exists.");
             }
 
-            _countries.Add(country);
-            _countries = _countries.OrderBy(c => c.Id).ToList();
-            return await Task.FromResult(country);
+            _context.Countries.Add(country);
+            await _context.SaveChangesAsync();
+            return country;
         }
 
         public async Task<Country> UpdateCountryAsync(int id, Country country)
         {
-            var existingCountry = _countries.FirstOrDefault(c => c.Id == id);
+            var existingCountry = await _context.Countries.FindAsync(id);
             if (existingCountry is null)
             {
                 throw new KeyNotFoundException($"Country with Id {id} not found.");
@@ -64,19 +49,21 @@ namespace HotelListing.Api.Repositories
             existingCountry.Name = country.Name;
             existingCountry.Code = country.Code;
 
-            return await Task.FromResult(existingCountry);
+            await _context.SaveChangesAsync();
+            return existingCountry;
         }
 
         public async Task<bool> DeleteCountryAsync(int id)
         {
-            var country = _countries.FirstOrDefault(c => c.Id == id);
+            var country = await _context.Countries.FindAsync(id);
             if (country is null)
             {
                 throw new KeyNotFoundException($"Country with Id {id} not found.");
             }
 
-            _countries.Remove(country);
-            return await Task.FromResult(true);
+            _context.Countries.Remove(country);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HotelListing.Api.Data;
 using HotelListing.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +6,14 @@ namespace HotelListing.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class HotelController : ControllerBase
+    public class HotelController(IHotelRepository _hotelRepository) : ControllerBase
     {
-        private readonly IHotelRepository _hotelRepository;
+        // private readonly IHotelRepository _hotelRepository;
 
-        public HotelController(IHotelRepository hotelRepository)
-        {
-            _hotelRepository = hotelRepository;
-        }
+        // public HotelController(IHotelRepository hotelRepository)
+        // {
+        //     _hotelRepository = hotelRepository;
+        // }
         
         [HttpGet("gethotels")]
         public async Task<ActionResult<IEnumerable<Hotel>>> GetHotels()
