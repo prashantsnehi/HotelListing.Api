@@ -1,14 +1,15 @@
 using HotelListing.Api.Data;
 using HotelListing.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
+using HotelListing.Api.MappingProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<HotelListingDbContext>(options =>
-    options.UseSqlServer(connectionString));    
-    
+    options.UseSqlServer(connectionString));
+
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -21,6 +22,10 @@ builder.Services.AddOpenApi();
 // Register repositories
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.addProfile<MappingProfile>();
+});
 
 var app = builder.Build();
 
